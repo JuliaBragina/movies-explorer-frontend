@@ -1,0 +1,268 @@
+.aboutMe{
+  height: 969px;
+  max-width: 89vw;
+  margin: 0 auto;
+  padding-top: 110px;
+}
+
+.aboutMe__aboutStudent{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 21vw;
+  padding-bottom: 100px;
+  padding-top: 66px;
+}
+
+
+.aboutMe__name{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  color: #fff;
+  letter-spacing: -2px;
+
+  margin: 0;
+  padding-bottom: 18px;
+}
+
+.aboutMe__position{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: #fff;
+
+  margin: 0;
+  padding-bottom: 26px;
+}
+
+.aboutMe__text{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #fff;
+
+  margin: 0;
+  padding-bottom: 76px;
+}
+
+.aboutMe__git{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  color: #fff;
+
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.aboutMe__git:hover:after{
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  height: 2px; 
+  background-color: #fff;
+}
+
+.aboutMe__avatar{
+  height: 327px;
+  width: 279px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.aboutMe__title{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: #8B8B8B;
+  margin: 0;
+  padding-bottom: 50px;
+}
+
+.aboutMe__items{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.aboutMe__item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.aboutMe__item:last-of-type{
+  padding-bottom: 0;
+}
+
+.aboutMe__item::after{
+  content: "";
+  display: block;
+  border-bottom: 1px solid #424242;
+  padding-top: 19px;
+  width: 100%;
+}
+
+.aboutMe__item:last-of-type::after{
+  display: none;
+  padding-bottom: 0;
+}
+
+.aboutMe__sub-title{
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.aboutMe__link{
+  height: 40px;
+  width: 19px;
+  object-fit: contain;
+
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.aboutMe__link:hover{
+  opacity: .5;
+}
+
+@media screen and (max-width: 768px) {
+  .aboutMe{
+    width: 87vw;
+    height: 909px;
+    padding-top: 90px;
+  }
+
+  .aboutMe__aboutStudent{
+    column-gap: 49px;
+    padding-bottom: 90px;
+  }
+
+  .aboutMe__name{
+    font-size: 40px;
+    line-height: 40px;
+
+    padding-bottom: 16px;
+  }
+
+  .aboutMe__position{
+    font-size: 12px;
+    line-height: 18px;
+
+    padding-bottom: 20px;
+  }
+
+  .aboutMe__text{
+    font-size: 12px;
+    line-height: 18px;
+
+    padding-bottom: 87px;
+  }
+  
+  .aboutMe__avatar{
+    height: 307px;
+    width: 255px;
+  }
+
+  .aboutMe__sub-title{
+    font-size: 28px;
+    line-height: 50px;
+  }
+
+  .aboutMe__item{
+    padding-bottom: 20px;
+  }
+
+  .aboutMe__link{
+    width: 27px;
+    height: 16px;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .aboutMe{
+    width: 91vw;
+    height: 1079px;
+  }
+
+  .aboutMe__aboutStudent{
+    flex-direction: column-reverse;
+    padding-bottom: 70px;
+    column-gap: 0;
+    row-gap: 40px;
+  }
+
+  .aboutMe__name{
+    font-size: 30px;
+    line-height: 36px;
+
+    padding-bottom: 20px;
+  }
+
+  .aboutMe__position{
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .aboutMe__text{
+    font-size: 11px;
+    line-height: 16px;
+
+    padding-bottom: 40px;
+  }
+    
+  .aboutMe__avatar{
+    margin: 0 auto;
+    height: 352px;
+    width: 292px;
+  }
+
+  .aboutMe__title{
+    padding-bottom: 40px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .aboutMe__sub-title{
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .aboutMe__link{
+    height: 28px;
+    width: 18px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .aboutMe{
+    padding-top: 70px;
+    height: 1128px;
+  }
+
+  .aboutMe__aboutStudent{
+    padding-top: 60px;
+  }
+
+  .aboutMe__link{
+    height: 16px;
+    width: 11px;
+  }
+}

@@ -1,0 +1,142 @@
+.aboutProject{
+  height: 498px;
+  max-width: 89vw;
+  margin: 0 auto;
+  padding-top: 110px;
+}
+
+.aboutProject__description{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  column-gap: 40px;
+  padding-bottom: 110px;
+  padding-top: 70px;
+}
+
+.aboutProject__sub-title{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+
+  padding-bottom: 26px;
+  margin: 0;
+}
+
+.aboutProject__text{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fff;
+
+  margin: 0;
+}
+
+.aboutProgect__infograpf{
+  display: grid;
+  grid-template-columns: minmax(141px, 228px) minmax(529px, 912px);
+  text-align: center;
+  align-items: stretch;
+}
+
+.aboutProject__topic{
+  display: grid;
+  grid-template-rows: repeat(2, 36px);
+  align-items: center;
+}
+
+.aboutProject__topic_isGreen{
+  height: 36px;
+  background: #3DDC84;
+  color: #000;
+}
+
+.aboutProject__topic_isGrey{
+  height: 36px;
+  background: #303030;
+}
+
+.aboutProject__term{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+
+  margin: 0;
+}
+
+.aboutProject__term_isBlack{
+  color: #000;
+}
+
+.aboutProject__theme{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #8B8B8B;
+
+  margin: 0;
+}
+
+
+@media screen and (max-width: 768px) {
+  .aboutProject{
+    height: 495px;
+    max-width: 88.7vw;
+    padding-top: 90px;
+  }
+
+  .aboutProject__description{
+    column-gap: 30px;
+    padding-bottom: 93px;
+  }
+
+  .aboutProject__text{
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .aboutProgect__infograpf{
+    grid-template-columns: minmax(100px, 141px) minmax(184px, 528px);
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .aboutProject{
+    padding-top: 70px;
+    height: 581px;
+  }
+
+  .aboutProject__description{
+    grid-template-columns: 1fr;
+    row-gap: 56px;
+    padding-bottom: 60px;
+    padding-top: 60px;
+  }
+
+  .aboutProject__sub-title{
+    padding-bottom: 16px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .aboutProject__text{
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .aboutProject__term{
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .aboutProject__theme{
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

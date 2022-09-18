@@ -1,0 +1,135 @@
+.techs{
+  background-color: #272727;
+  height: 525px;
+  padding-top: 100px;
+}
+
+.techs__cont{
+  max-width: 89vw;
+  margin: 0 auto;
+}
+
+.techs__title{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -2px;
+  color: #fff;
+
+  margin: 0;
+  text-align: center;
+  padding-bottom: 26px;
+  padding-top: 90px;
+}
+
+.techs__text{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fff;
+  
+  margin: 0 auto;
+  text-align: center;
+  max-width: 460px;
+  padding-bottom: 100px;
+}
+
+.techs__stack{ 
+  display: flex;
+  max-width: 690px;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.techs__tech{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+  text-align: center;
+
+  margin: 0;
+  vertical-align: middle;
+  width: 90px;
+  line-height: 60px;
+  background: #303030;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .techs{
+    height: 477px;
+    padding-top: 90px;
+  }
+
+  .techs__text{
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 460px;
+  }
+
+  .techs__stack{
+    max-width: 646px;
+  }
+
+  .techs__title{
+    padding-bottom: 22px;
+    padding-top: 80px;
+  }
+
+  .techs__tech{
+    font-size: 12px;
+    line-height: 15px;
+
+    vertical-align: middle;
+    width: 84px;
+    line-height: 57px;
+    margin-bottom: 10px;
+  }
+
+  .techs__text{
+    padding-bottom: 83px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .techs{
+    height: 651px;
+  }
+
+  .techs__stack{
+    flex-wrap: wrap;
+    max-width: 366px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .techs{
+    padding-top: 70px;
+    height: 581px;
+  }
+
+  .techs__cont{
+    width: 88.8vw;
+  }
+
+  .techs__title{
+    font-size: 30px;
+    line-height: 36px;
+    padding-top: 60px;
+  }
+  
+  .techs__text{
+    font-size: 11px;
+    line-height: 16px;
+    max-width: 292px;
+    padding-bottom: 50px
+  }
+
+  .techs__stack{
+    max-width: 178px;
+  }
+}
