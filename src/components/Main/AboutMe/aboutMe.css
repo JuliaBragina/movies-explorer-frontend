@@ -96,11 +96,13 @@
 }
 
 .aboutMe__item{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding-bottom: 20px;
-  flex-wrap: wrap;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.aboutMe__item:hover{
+  opacity: .5;
 }
 
 .aboutMe__item:last-of-type{
@@ -120,6 +122,13 @@
   padding-bottom: 0;
 }
 
+.aboutMe__itemLink{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+}
+
 .aboutMe__sub-title{
   margin: 0;
   font-family: 'Inter', Arial, sans-serif;
@@ -134,13 +143,6 @@
   height: 40px;
   width: 19px;
   object-fit: contain;
-
-  cursor: pointer;
-  transition: opacity .4s;
-}
-
-.aboutMe__link:hover{
-  opacity: .5;
 }
 
 @media screen and (max-width: 768px) {

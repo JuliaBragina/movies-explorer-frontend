@@ -7,7 +7,7 @@ function HeaderLanding() {
   return (
     <div className="headerLanding">
       <div className="headerLanding__main">
-        <img src={logo} alt="Логотип" className="logo"></img>
+        <Link to='/'><img src={logo} alt="Логотип" className="logo"></img></Link>
         <section className="headerLanding__ayth">
           <Link to='/signup' className="headerLanding__link">Регистрация</Link>
           <Link to='/signin' className="headerLanding__link">Войти</Link>

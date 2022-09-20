@@ -19,20 +19,20 @@ function AboutMe() {
         <h3 className="aboutMe__title">Портфолио</h3>
         <ul className="aboutMe__items">
           <li className="aboutMe__item">
-            <p className="aboutMe__sub-title">Статичный сайт</p>
-            <a href="https://github.com/JuliaBragina/how-to-learn" target="blank">
+            <a href="https://github.com/JuliaBragina/how-to-learn" className="aboutMe__itemLink" target="blank">
+              <p className="aboutMe__sub-title">Статичный сайт</p>
               <img href="#" src={link} className="aboutMe__link" alt="link"></img>
             </a>
           </li>
           <li className="aboutMe__item">
-            <p className="aboutMe__sub-title">Адаптивный сайт</p>
-            <a href="https://github.com/JuliaBragina/russian-travel" target="blank">
+            <a href="https://github.com/JuliaBragina/russian-travel" className="aboutMe__itemLink" target="blank">
+              <p className="aboutMe__sub-title">Адаптивный сайт</p>
               <img href="#" src={link} className="aboutMe__link" alt="link"></img>
             </a>
           </li>
           <li className="aboutMe__item">
-            <p className="aboutMe__sub-title">Одностраничное приложение</p>
-            <a href="https://github.com/JuliaBragina/react-mesto-api-full" target="blank">
+            <a href="https://github.com/JuliaBragina/react-mesto-api-full" className="aboutMe__itemLink" target="blank">
+              <p className="aboutMe__sub-title">Одностраничное приложение</p>
               <img src={link} className="aboutMe__link" alt="link"></img>
             </a>
           </li>

@@ -76,6 +76,7 @@
   .headerLanding__link:last-of-type{
     width: 54px;
     height: 26px;
+    line-height: 26px;
   }
 
   .headerLanding__ayth{

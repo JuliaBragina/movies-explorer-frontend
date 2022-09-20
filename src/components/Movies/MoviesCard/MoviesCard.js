@@ -4,7 +4,7 @@ function MoviesCard({ movie, onCardLike, path, onCardDelete }) {
   const isCardLiked = movie.liked === true;
   return (
     <div className="moviesCard">
-      <div style={{ backgroundImage: `url(${movie.url})`}} alt="фильм" className="moviesCard__img" />
+      <img src={movie.url} alt="фильм" className="moviesCard__img" />
       <section className="moviesCard__cont">
         <p className='moviesCard__nameFilm'>{movie.nameRU}</p>
         {

@@ -3,7 +3,7 @@ import PopupAuth from '../PopupAuth/PopupAuth';
 import { useForm } from "react-hook-form"; 
 
 function Register() {
-  const { register, formState: {errors, isValid} } = useForm({
+  const { register, formState: {errors} } = useForm({
     mode: 'all'
   });
   return(
@@ -17,7 +17,8 @@ function Register() {
             maxLength: {value: 30, message: 'Длина поля должна быть меньше 30-и символов.'} })}
           type='text'
           className='popupAuth__input'
-          autoComplete="off">
+          autoComplete="off"
+          required>
         </input>
         <span className='popupAuth__error'>{errors?.name?.message}</span>
       </section>

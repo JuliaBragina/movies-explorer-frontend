@@ -7,7 +7,7 @@ import '../HeaderLanding/logo.css';
 function HeaderContainer({ onOpenMenu }) {
   return(
     <div className="headerContainer">
-      <img src={logo} alt="Логотип" className="logo"></img>
+      <Link to='/'><img src={logo} alt="Логотип" className="logo"></img></Link>
       <section className='headerContainer__sectionLinks'>
         <Link to="/movies" className="headerContainer__linkMovies">Фильмы</Link>
         <Link to="/savedMovies" className="headerContainer__linkMovies">Сохраненные фильмы</Link>

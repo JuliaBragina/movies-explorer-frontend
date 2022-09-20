@@ -4,12 +4,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 const schema = yup.object({
-  email: yup.string().required().email(),
+  name: yup.string().min(2).max(30),
+  email: yup.string().email(),
 }).required();
 
 function Account() {
 
-  const { register, handleSubmit, formState: {errors, isValid} } = useForm({
+  const { register, handleSubmit, formState: {errors} } = useForm({
     mode: 'all',
     resolver: yupResolver(schema)
   });
@@ -23,11 +24,7 @@ function Account() {
 
         <section className="account__section">
           <input 
-            {...register("nameText", {
-              required: 'Поле обязательное для заплнения', 
-              minLength: {value: 2, message: 'Длина поля должна быть больше 2-х символов.'},
-              maxLength: {value: 30, message: 'Длина поля должна быть меньше 30-и символов.'}
-            })}
+            {...register("name")}
             type='text'
             className='account__input'
             autoComplete="off">
@@ -37,9 +34,7 @@ function Account() {
 
         <section className="account__section">
           <input 
-            {...register("email", {
-              required: 'Поле обязательное для заполнения.' }
-            )} 
+            {...register("email")} 
             type='email'
             className='account__input'
             autoComplete="off">
@@ -47,7 +42,7 @@ function Account() {
           <label className='account__label'>E-mail</label>
         </section>
 
-        <span className="account__error">{errors?.nameText?.message}</span>
+        <span className="account__error">{errors?.name?.message}</span>
         <span className="account__error">{errors?.email?.message}</span>
 
         <section className="account__buttons">

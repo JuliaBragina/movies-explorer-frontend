@@ -35,7 +35,8 @@ function PopupAuth({ children, logo, textWelcome, linkButton, link, linkText, bu
               {...register("email", {required: 'Поле обязательное для заполнения.'})} 
               type='email'
               className='popupAuth__input'
-              autoComplete="off">
+              autoComplete="off"
+              required>
             </input>
             <span className='popupAuth__error'>{errors?.email?.message}</span>
           </section>
@@ -46,7 +47,8 @@ function PopupAuth({ children, logo, textWelcome, linkButton, link, linkText, bu
               {...register("pass", {required: 'Поле обязательное для заполнения.'})}
               type='password'
               className='popupAuth__input'
-              autoComplete="off">
+              autoComplete="off"
+              required>
             </input>
             <span className='popupAuth__error'>{errors?.pass?.message}</span>
           </section>
