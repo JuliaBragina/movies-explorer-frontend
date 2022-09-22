@@ -5,7 +5,7 @@ import './logo.css';
 
 function HeaderLanding() {
   return (
-    <div className="headerLanding">
+    <header className="headerLanding">
       <div className="headerLanding__main">
         <Link to='/'><img src={logo} alt="Логотип" className="logo"></img></Link>
         <section className="headerLanding__ayth">
@@ -13,7 +13,7 @@ function HeaderLanding() {
           <Link to='/signin' className="headerLanding__link">Войти</Link>
         </section>
       </div>
-    </div>
+    </header>
   )
 }
 

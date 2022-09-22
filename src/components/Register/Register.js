@@ -17,8 +17,7 @@ function Register() {
             maxLength: {value: 30, message: 'Длина поля должна быть меньше 30-и символов.'} })}
           type='text'
           className='popupAuth__input'
-          autoComplete="off"
-          required>
+          autoComplete="off">
         </input>
         <span className='popupAuth__error'>{errors?.name?.message}</span>
       </section>

@@ -1,8 +1,8 @@
 import './footer.css';
 
-function Footer() {
+function Footer({isMenuOpen}) {
   return (
-    <div className="footer">
+    <footer className={`footer ${isMenuOpen && "footer_burgerMenuIsOpen"}`}>
       <p className="footer__description">Учебный проект Яндекс.Практикум х BeatFilm.</p>
       <div className="footer__links">
         <p className="footer__year">&copy; 2022</p>
@@ -11,7 +11,7 @@ function Footer() {
           <a href="https://github.com/Yandex-Practicum" target="blank" className="footer__link">GitHub</a>
         </section>
       </div>
-    </div>
+    </footer>
   )
 }
 

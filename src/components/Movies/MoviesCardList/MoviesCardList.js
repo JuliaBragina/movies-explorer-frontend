@@ -6,11 +6,11 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function MoviesCardList({ movies, onCardLike, isCardLiked, path, onCardDelete }) {
   return (
     <div className="moviesCardList">
-        <>
-          {
-            movies.map((movie) => <MoviesCard key={movie.id} onCardLike={onCardLike} movie={movie} path={path} onCardDelete={onCardDelete} />)
-          }
-        </>
+      <>
+        {
+          movies.map((movie) => <MoviesCard key={movie.id} onCardLike={onCardLike} movie={movie} path={path} onCardDelete={onCardDelete} />)
+        }
+      </>
     </div> 
   )
 }

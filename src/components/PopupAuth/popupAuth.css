@@ -64,6 +64,12 @@
   margin: 0;
 }
 
+.popupAuth__error_forSearchForm{
+  position: absolute;
+  top: 120px;
+  left: 0;
+}
+
 .popupAuth__button{
   font-family: 'Inter', Arial, sans-serif;
   font-weight: 500;
@@ -140,6 +146,11 @@
   background-color: #4285F4;
 }
 
+@media screen and (max-width: 768px){
+  .popupAuth__error_forSearchForm{
+    top: 140px;
+  }
+}
 
 @media screen and (max-width: 560px) { 
   .popupAuth{

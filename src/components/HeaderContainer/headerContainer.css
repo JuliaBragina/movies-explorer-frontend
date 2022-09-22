@@ -1,3 +1,10 @@
+.header_burgerMenuIsOpen{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+}
+
 .headerContainer{
   max-width: 89vw;
   height: 74px;

@@ -7,7 +7,7 @@ function Header({ isMenuOpen, onOpenMenu }) {
   return (
     <>
       <BurgerMenu isMenuOpen={isMenuOpen} onOpenMenu={onOpenMenu} />
-      <HeaderContainer onOpenMenu={onOpenMenu} />
+      <HeaderContainer onOpenMenu={onOpenMenu} isMenuOpen={isMenuOpen} />
     </>
   )
 }

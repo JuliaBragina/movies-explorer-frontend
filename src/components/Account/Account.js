@@ -18,7 +18,7 @@ function Account() {
   const onSubmit = () => {};
   
   return(
-    <div className='account'>
+    <main className='account'>
       <h2 className="account__title">Привет, Юлия!</h2>
       <form className='account__form' onSubmit={handleSubmit(onSubmit)}>
 
@@ -50,7 +50,7 @@ function Account() {
           <button className="account__button">Выйти из аккаунта</button>
         </section>
       </form>
-    </div>
+    </main>
   )
 }
 

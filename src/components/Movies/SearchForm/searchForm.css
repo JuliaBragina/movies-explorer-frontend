@@ -37,6 +37,10 @@
   opacity: .4;
 }
 
+.searchForm__button:disabled{
+  opacity: .4;
+}
+
 .searchForm__img{
   width: 11px;
   height: 18px;

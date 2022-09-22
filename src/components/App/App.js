@@ -47,18 +47,18 @@ function App() {
         <Switch>
           <Route exact path="/">
             <HeaderLanding />
-            <Main />
+            <Main/>
             <Footer />
           </Route>
           <Route path="/movies">
             <Header isMenuOpen={isMenuOpen} onOpenMenu={handleOpenMenu}/>
-            <Movies onCardLike={handleCardLike} movies={cardsMovies}/>
-            <Footer />
+            <Movies onCardLike={handleCardLike} movies={cardsMovies} isMenuOpen={isMenuOpen}/>
+            <Footer isMenuOpen={isMenuOpen}/>
           </Route>
           <Route path="/savedMovies">
             <Header isMenuOpen={isMenuOpen} onOpenMenu={handleOpenMenu}/>
             <Movies movies={cardsSavedMovies} onCardDelete={hadleDeleteCard} path='savedMovies'/>
-            <Footer />
+            <Footer isMenuOpen={isMenuOpen}/>
           </Route>
           <Route path="/myAccount">
             <Header isMenuOpen={isMenuOpen} onOpenMenu={handleOpenMenu}/>
