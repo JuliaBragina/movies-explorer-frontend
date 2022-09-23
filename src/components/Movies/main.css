@@ -1,0 +1,6 @@
+.main_burgerMenuIsOpen{
+  position: fixed;
+  width: 100%;
+  top: 74px;
+  right: 0;
+}

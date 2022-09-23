@@ -1,0 +1,70 @@
+.notFound{
+  text-align: center;
+}
+
+.notFound__pageNotFound{
+  margin: 0;
+  padding-top: 5px;
+  padding-bottom: 184px;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #fff;
+}
+
+.notFound__404{
+  margin: 0;
+  padding-top: 246px;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 140px;
+  line-height: 169px;
+  color: #fff;
+}
+
+.notFound__link{
+  margin: 0;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4285F4;
+  text-decoration: none;
+
+  position: relative;
+}
+
+.notFound__link:hover:after{
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  height: 2px; 
+  background-color: #4285F4;
+}
+
+@media screen and (max-width: 560px) {
+  .notFound__404{
+    padding-top: 329px;
+    font-size: 80px;
+    line-height: 97px;
+  }
+
+  .notFound__pageNotFound{
+    padding-top: 10px;
+    padding-bottom: 284px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .notFound__link{
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

@@ -1,0 +1,37 @@
+.add{
+  height: 166px;
+  margin: 0 auto;
+}
+
+.add__button{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 50px;
+  height: 36px;
+  width: 320px;
+  background-color: transparent;
+  color: #fff;
+  border-color: #424242;
+  border-radius: 8px;
+  border-style: solid;
+  padding: 0;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.add__button:hover{
+  opacity: .5;
+}
+
+@media screen and (max-width: 560px) {
+  .add__button{
+    width: 240px;
+  }
+}

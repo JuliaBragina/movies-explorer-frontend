@@ -1,0 +1,174 @@
+.header_burgerMenuIsOpen{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+}
+
+.headerContainer{
+  max-width: 89vw;
+  height: 74px;
+  margin: 0 auto;
+  display: flex;  
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerContainer__sectionLinks{
+  width: 212px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerContainer__linkMovies{
+  text-decoration: none;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #fff;
+
+  position: relative;
+  transition: all .4s ease;
+}
+
+.headerContainer__linkMovies:hover:after{
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  height: 2px; 
+  background-color: #fff;
+}
+
+.headerContainer__account{
+  padding: 0;
+  height: 32px;
+  width: 100px;
+  background: transparent;
+  border: 1px solid #aaa;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all .4s ease;
+}
+
+.headerContainer__account:hover{
+  box-shadow: 0 0 12px #fff;
+}
+
+.headerContainer__img{
+  height: 14px;
+  width: 12px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+
+  vertical-align: middle;
+}
+
+.headerContainer__linkProfile{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #fff;
+  padding-left: 7px;
+  text-decoration: none;
+}
+
+.headerContainer__burgerButton{
+  display: none;
+}
+
+.headerContainer__closeButton{
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .headerContainer{
+    max-width: 92vw;
+  }
+
+  .headerContainer__closeButton{
+    display: block;
+    background-image: url('../../images/close-button.svg');
+    position: absolute;
+    background-size: 100% 100%;
+    top: 22px;
+    right: 22px;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    transition: opacity .4s;
+  }
+
+  .headerContainer__closeButton:hover{
+    opacity: .4;
+ }
+  
+  .headerContainer__burgerButton{
+    background-image: url('../../images/burger-button.svg');
+    display: block;
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    transition: opacity .4s;
+  }
+
+  .headerContainer__burgerButton:hover{
+     opacity: .4;
+  }
+
+  .headerContainer__linkMovies{
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .headerContainer__linkMovies:last-of-type{
+    padding: 0;
+  }
+
+  .headerContainer__point{
+    padding-bottom: 28px;
+  }
+
+  .headerContainer__point:nth-last-of-type(2){
+    padding-bottom: 621px;
+  }
+
+  .headerContainer__account_isnActive{
+    display: none;
+  }
+  
+  .headerContainer__account{
+    margin: 0 auto;
+  }
+  
+  .headerContainer__sectionLinks{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .headerContainer__point{
+    padding-bottom: 24px;
+  }
+
+  .headerContainer__point:nth-last-of-type(2){
+    padding-bottom: 444px;
+  }
+}

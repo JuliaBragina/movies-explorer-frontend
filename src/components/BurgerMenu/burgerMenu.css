@@ -1,0 +1,47 @@
+.burgerMenu{
+  display: none;
+  transition: all 0.4s ease;
+}
+
+.burgerMenu__navigaton{
+  display: none;
+}
+
+.burgerMenu_isOpen{
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .burgerMenu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 68vw;
+    height: 1024px;
+    background: #202020;
+    z-index: 2;
+  }
+
+  .burgerMenu__navigaton{
+    display: block;
+    margin: 0 auto;
+    list-style-type: none;
+    text-align: center;
+    padding: 0;
+    padding-top: 159px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .burgerMenu{
+    width: 100vw;
+  }
+
+  .burgerMenu_isOpen{
+    height: 780px;
+  }
+
+  .burgerMenu__navigaton{
+    padding-top: 144px;
+  }
+}

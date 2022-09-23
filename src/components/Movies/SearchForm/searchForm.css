@@ -1,0 +1,148 @@
+.searchForm{
+  margin: 0 auto;
+  max-width: 89vw;
+}
+
+.searchFrom__serachLine{
+  position: relative;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 42px;
+  padding-top: 60px;
+}
+
+.searchForm__input{
+  height: 46px;
+  width: 100%;
+  background: #2F2F2F;
+  border: 0;
+  border-radius: 40px;
+  text-indent: 22px;
+}
+
+.searchForm__button{
+  position: absolute;
+  top: 66px;
+  right: 3px;
+  border: 0;
+  width: 34px;
+  height: 34px;
+  background: #4285F4;
+  border-radius: 48px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.searchForm__button:hover{
+  opacity: .4;
+}
+
+.searchForm__button:disabled{
+  opacity: .4;
+}
+
+.searchForm__img{
+  width: 11px;
+  height: 18px;
+  object-fit: cover;
+  margin: 0 auto;
+  padding-top: 11px;
+}
+
+.searchFrom__searchOption{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+
+.searchFrom__searchOption::after{
+  content: "";
+  display: block;
+  border-bottom: 1px solid #424242;
+  width: 100%;
+  padding-bottom: 70px;
+}
+
+.searchFrom__container{
+  height: 20px;
+  width: 36px;
+  display: block;
+  position: relative;
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);
+  border-radius: 16px;
+}
+
+.searchFrom__cont{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #202020;
+  cursor: pointer;
+}
+
+.searchFrom__checkbox{
+  display: none;
+}
+
+.searchFrom__checkbox:checked + .searchFrom__slider{
+  background-color: #3DDC84;
+}
+
+.searchFrom__checkbox:checked + .searchFrom__slider{
+  transform: translateX(16px);
+}
+
+.searchFrom__slider{
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #AAA;
+  top: 3px;
+  left: 2px;
+  transition: .4s;
+  cursor: pointer;
+}
+
+.searchFrom__text{
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+
+  margin: 0;
+  padding-left: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .searchForm{
+    max-width: 92.2vw;
+    height: 248px;
+  }
+
+  .searchFrom__searchOption::after{
+    padding-bottom: 51px;
+  }
+
+  .searchFrom__serachLine{
+    padding-top: 80px;
+  }
+
+  .searchForm__button{
+    top: 86px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .searchForm{
+    max-width: 91vw;
+  }
+
+  .searchFrom__text{
+    font-size: 11px;
+    line-height: 18px;
+  }
+}
