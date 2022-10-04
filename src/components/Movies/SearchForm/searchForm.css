@@ -117,6 +117,19 @@
   padding-left: 12px;
 }
 
+.searchFrom__slider_isShortMovies{
+  background: #3DDC84;
+}
+
+.searchFrom__checkbox_isShortMovies + .searchFrom__slider_isShortMovies{
+  background-color: #AAA;
+}
+
+.searchFrom__checkbox_isShortMovies + .searchFrom__slider_isShortMovies{
+  transform: translateX(16px);
+}
+
+
 @media screen and (max-width: 768px) {
   .searchForm{
     max-width: 92.2vw;

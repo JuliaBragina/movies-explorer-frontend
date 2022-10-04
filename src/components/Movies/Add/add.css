@@ -26,6 +26,10 @@
   transition: opacity .4s;
 }
 
+.add__button_isDisabled:disabled{
+  opacity: .5;
+}
+
 .add__button:hover{
   opacity: .5;
 }

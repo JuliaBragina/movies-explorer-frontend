@@ -17,3 +17,6 @@ npm start — запускает проект на http://localhost:3000
 
 ## Макет проекта
 https://disk.yandex.ru/d/lRJe1FCZk7Glbg
+
+##Ссылка на ПР
+
