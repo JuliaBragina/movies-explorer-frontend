@@ -2,10 +2,19 @@ import logo from '../../images/logo.svg';
 import PopupAuth from '../PopupAuth/PopupAuth';
 import { useForm } from "react-hook-form"; 
 import { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  name: yup.string().min(2).max(30).required(),
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+}).required();
 
 function Register({ onRegisterUser, onLoading }) {
   const { register, formState: {errors, isValid} } = useForm({
-    mode: 'all'
+    mode: 'all',
+    esolver: yupResolver(schema)
   });
 
   const [name, setName] = useState('');
@@ -50,10 +59,7 @@ function Register({ onRegisterUser, onLoading }) {
       <section className='popupAuth__section'>
         <label className='popupAuth__placeholder'>Имя</label>
         <input 
-          {...register("name", {
-            required: 'Поле обязательное для заплнения', 
-            minLength: {value: 2, message: 'Длина поля должна быть больше 2-х символов.'},
-            maxLength: {value: 30, message: 'Длина поля должна быть меньше 30-и символов.'} })}
+          {...register("name")}
           type='text'
           name="name"
           className='popupAuth__input'
@@ -67,7 +73,7 @@ function Register({ onRegisterUser, onLoading }) {
       <section className='popupAuth__section'>
         <label className='popupAuth__placeholder'>E-mail</label>
         <input
-          {...register("email", {required: 'Поле обязательное для заполнения.'})} 
+          {...register("email")} 
           type='email'
           name='email'
           className='popupAuth__input'
@@ -81,7 +87,7 @@ function Register({ onRegisterUser, onLoading }) {
       <section className='popupAuth__section'>
         <label className='popupAuth__placeholder'>Пароль</label>
         <input
-          {...register("pass", {required: 'Поле обязательное для заполнения.'})}
+          {...register("password")}
           type='password'
           name='password'
           className='popupAuth__input'
@@ -89,7 +95,7 @@ function Register({ onRegisterUser, onLoading }) {
           value={password || ""}
           onChange={handlerChangePassword}>
         </input>
-        <span className='popupAuth__error'>{errors?.pass?.message}</span>
+        <span className='popupAuth__error'>{errors?.password?.message}</span>
       </section>
 
     </PopupAuth>

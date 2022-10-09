@@ -26,12 +26,12 @@
   transition: opacity .4s;
 }
 
-.add__button_isDisabled:disabled{
+.add__button:hover{
   opacity: .5;
 }
 
-.add__button:hover{
-  opacity: .5;
+.add__button:disabled{
+  display: none;
 }
 
 @media screen and (max-width: 560px) {

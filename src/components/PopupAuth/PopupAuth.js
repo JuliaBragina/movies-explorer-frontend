@@ -13,7 +13,7 @@ function PopupAuth({ children, logo, textWelcome, linkButton, link, linkText, bu
           {children}
        
           <NavLink to={linkButton}>
-            <button onClick={onSubmit} disabled={onLoading} type='submit' className={(link === '/signin') ? "popupAuth__button" : "popupAuth__button popupAuth__button_toLogin"}>{onLoading ? 'Вход...' : buttonText}</button>
+            <button onClick={onSubmit} disabled={onLoading || !validButton} type='submit' className={(link === '/signin') ? "popupAuth__button" : "popupAuth__button popupAuth__button_toLogin"}>{onLoading ? 'Вход...' : buttonText}</button>
           </NavLink>
           <section className='popupAuth__login'>
             <p className="popupAuth__paragraph">{paragr}</p>

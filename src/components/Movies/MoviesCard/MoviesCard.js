@@ -6,7 +6,7 @@ function MoviesCard({ movie, onCardLike, savedMovies }) {
   
   return (
     <div className="moviesCard">
-      <img src={'https://api.nomoreparties.co' + movie.image.url} alt="фильм" className="moviesCard__img" />
+      <a href={movie.trailerLink} target='_blank'><img src={'https://api.nomoreparties.co' + movie.image.url} alt="фильм" className="moviesCard__img" /></a>
       <section className="moviesCard__cont">
         <p className='moviesCard__nameFilm'>{movie.nameRU}</p>
         <button type="button" aria-label = "Нравится" className="moviesCard__btnLike moviesCard__btnLike_isLiked" onClick={_=>onCardLike(movie)}>

@@ -2,11 +2,19 @@ import logo from '../../images/logo.svg';
 import PopupAuth from '../PopupAuth/PopupAuth';
 import { useForm } from "react-hook-form"; 
 import { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+}).required();
 
 function Login({ onLoginUser, onLoading }) {
 
   const { register, formState: {errors, isValid} } = useForm({
-    mode: 'all'
+    mode: 'all',
+    resolver: yupResolver(schema)
   });
 
   const [email, setEmail] = useState('');
@@ -33,7 +41,7 @@ function Login({ onLoginUser, onLoading }) {
       <section className='popupAuth__section'>
         <label className='popupAuth__placeholder'>E-mail</label>
         <input
-          {...register("email", {required: 'Поле обязательное для заполнения.'})} 
+          {...register("email")} 
           type='email'
           name='email'
           className='popupAuth__input'
@@ -47,7 +55,7 @@ function Login({ onLoginUser, onLoading }) {
       <section className='popupAuth__section'>
         <label className='popupAuth__placeholder'>Пароль</label>
         <input
-          {...register("pass", {required: 'Поле обязательное для заполнения.'})}
+          {...register("password")}
           type='password'
           name='password'
           className='popupAuth__input'
@@ -55,7 +63,7 @@ function Login({ onLoginUser, onLoading }) {
           value={password || ""}
           onChange={handlerChangePassword}>
         </input>
-        <span className='popupAuth__error'>{errors?.pass?.message}</span>
+        <span className='popupAuth__error'>{errors?.password?.message}</span>
       </section>
 
     </PopupAuth>

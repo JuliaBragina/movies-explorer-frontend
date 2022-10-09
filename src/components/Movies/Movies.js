@@ -4,10 +4,10 @@ import Add from './Add/Add.js';
 import './main.css';
 import Preloader from '../Movies/Preloader/Preloader';
 
-function Movies({ movies, onCardLike, pathForIf, onCardDelete, isMenuOpen, onFindMovies, savedMovies, onClickButton, onLoading, onChangeSerachFrom, onShortMovies, onDisableButton }) {
+function Movies({ movies, onCardLike, pathForIf, onCardDelete, isMenuOpen, onFindMovies, onFindMoviesOpt, savedMovies, onClickButton, onLoading, onChangeSerachFrom, onShortMovies, onDisableButton}) {
   return(
     <main className={`${isMenuOpen && "main_burgerMenuIsOpen"}`}>
-      <SearchForm onFindMovies={onFindMovies} onShortMovies={onShortMovies} onChangeSerachFrom={onChangeSerachFrom}/>
+      <SearchForm onFindMovies={onFindMovies} onFindMoviesOpt={onFindMoviesOpt} onShortMovies={onShortMovies} onChangeSerachFrom={onChangeSerachFrom} pathForIf={pathForIf}/>
       <>
         {
           onLoading
@@ -16,9 +16,14 @@ function Movies({ movies, onCardLike, pathForIf, onCardDelete, isMenuOpen, onFin
         }
       </>
       <>
+      {
+        onDisableButton &&
+        <>
           {
             pathForIf === 'movies' && <Add onClickButton={onClickButton} onDisableButton={onDisableButton}/>
           }
+        </>
+      }
       </>
     </main>
   )

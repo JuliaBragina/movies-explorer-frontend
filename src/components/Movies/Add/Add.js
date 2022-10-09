@@ -5,7 +5,7 @@ function Add({ temp, onClickButton, onDisableButton }){
 
   return(
     <div className='add'>
-      <button type="submit" className="add__button" disabled={onDisableButton} onClick={_=>onClickButton(temp)}>Еще</button>
+      <button type="submit" className="add__button" onClick={_=>onClickButton(temp)}>Еще</button>
     </div>
   )
 }

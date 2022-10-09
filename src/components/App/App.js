@@ -17,28 +17,31 @@ import '../../vendor/page.css';
 import NotFound from '../NotFound/NotFound';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cardsMoviesFiltr, setCardsMoviesFiltr] = useState([]);
   const [switchOnSwortMovies, setSwitchOnSwortMovies] = useState(localStorage.getItem('onlyShort') || false);
+  const [switchOnSwortSavedMovies, setSwitchOnSwortSavedMovies] = useState(localStorage.getItem('onlySavedShort') || false);
   const [currenUser, setCurrentUser] = useState({});
   const [testState, setTestState] = useState([]);
-  const [disableButtonAdd, setDisableButtonAdd] = useState(false);
+  const [disableButtonAdd, setDisableButtonAdd] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [changeSearchFrom, setChangeSearchForm] = useState(false);
+  const [changeSearchFrom, setChangeSearchForm] = useState(true);
   const [cardsMoviesFiltrCount, setCardsMoviesFiltrCount] = useState(false);
   const [countMovies, setCountMovies] = useState(0);
   const history = useHistory();
   const location = useLocation();
   const [width, setWidth] = useState(window.innerWidth);
   const [countCardsAdd, setCountCardsAdd] = useState({firstCount: 12, nextCount: 4});
+  const [isRegPopupOpen, setIsRegPopupOpen] = useState(false);
 
   useEffect(() => {
-    setDisableButtonAdd(false);
-  }, [changeSearchFrom])
+     setDisableButtonAdd(true);
+  }, [changeSearchFrom]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResizeWindow);
@@ -46,25 +49,22 @@ function App() {
 
   useEffect(() => {
     if (width === 1280) {
-      console.log('1280')
       setCountCardsAdd({firstCount: 12, nextCount: 4});
     }
     if ((1025 <= width)&&(width <= 1279)) {
-      console.log('10251279')
       setCountCardsAdd({firstCount: 12, nextCount: 3});
     }
     if ((581 <= width)&&(width <= 1024)) {
-      console.log('5811024')
       setCountCardsAdd({firstCount: 8, nextCount: 2});
     }
     if ((320 <= width)&&(width <= 580)) {
-      console.log('320580')
       setCountCardsAdd({firstCount: 5, nextCount: 2});
     }
-  }, [width])
+  }, [width]);
 
   useEffect(() => {
     setSwitchOnSwortMovies(localStorage.getItem('onlyShort'));
+    setSwitchOnSwortSavedMovies(localStorage.getItem('onlySavedShort'));
   }, [switchOnSwortMovies]);
 
   useEffect(() => {
@@ -95,7 +95,16 @@ function App() {
       .then(user => setCurrentUser(user))
       .catch(err => console.log(err));
     }
-  }, [loggedIn])
+  }, [loggedIn]);
+
+  useEffect(() => {
+    mainApi.getSavedMovies()
+    .then(movies => {
+      setTestState(movies);
+      localStorage.setItem('savedMovies', JSON.stringify(movies));
+    })
+    .catch(err => console.log(err));
+  }, []);
 
   useEffect(() => {
     if (loggedIn) {
@@ -107,6 +116,55 @@ function App() {
 
   const handleResizeWindow = () => setWidth(window.innerWidth);
 
+  useEffect(() => {
+    localStorage.setItem('searchSavedWord', '');
+    localStorage.setItem('searchWord', '');
+    localStorage.setItem('filterMovies', '');
+  }, []);
+
+  useEffect(() => {
+    let searchSavedWord = localStorage.getItem('searchSavedWord');
+    if(searchSavedWord.indexOf('undefined') === -1 ) {
+      handleFiltrSavedMovies({ searchWord: searchSavedWord, location: 'savedMovies' });
+    }
+  }, [switchOnSwortSavedMovies]);
+
+  useEffect(() => {
+    let searchWord = localStorage.getItem('searchWord');
+    if(searchWord.indexOf('undefined') === -1 ) {
+      handleFiltrMovies({ searchWord: searchWord, location: 'movies' });
+    }
+  }, [switchOnSwortMovies]);
+
+  const handleFindShordSavedMovies = (shortMovies) => {
+    setSwitchOnSwortSavedMovies(shortMovies.shortMovies);
+    localStorage.setItem('onlySavedShort', JSON.stringify(shortMovies.shortMovies));
+  }
+
+  const handleFindShordMovies = (searchWord) => {
+    setSwitchOnSwortMovies(searchWord.shortMovies);
+    localStorage.setItem('onlyShort', JSON.stringify(searchWord.shortMovies));
+  }
+
+  async function handleFiltrMovies(searchWord) {
+    console.log(searchWord);
+    setIsLoading(true);
+    if ((localStorage.getItem('movies') === null)) {
+      await moviesApi.getAllCards()
+      .then(res => {
+        localStorage.setItem('movies', JSON.stringify(res));
+      })
+      .catch(err =>{
+        setIsRegPopupOpen(true);
+        console.log(err);
+      })
+      .finally(() => setIsLoading(false));
+    }
+
+    handleLoadingMovies(searchWord);
+    setIsLoading(false);
+  }
+
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   }
@@ -115,32 +173,43 @@ function App() {
     setChangeSearchForm(true);
   }
 
-  async function handleFiltrMovies(searchWord) {
-    setIsLoading(true);
+  const handleCloseButton = () => {
+    setIsRegPopupOpen(false);
+  }
 
-    if ((localStorage.getItem('movies') === null)) {
-      await moviesApi.getAllCards()
-      .then(res => {
-        localStorage.setItem('movies', JSON.stringify(res));
-      })
-      .catch(err => alert(err))
-      .finally(() => setIsLoading(false));
+  function handleFiltrSavedMovies(searchWord) {
+    let massSavedLocal = []
+    let massSavedLocalSort = [];
+    localStorage.setItem('searchSavedWord', searchWord.searchWord);
+    let shortSavedMovies = localStorage.getItem('onlySavedShort');
+    if ((localStorage.getItem('savedMovies') !== null)) {
+      massSavedLocal = JSON.parse(localStorage.getItem('savedMovies'));
+      massSavedLocal.forEach(item => {
+        if ((item.nameRU.toLowerCase().indexOf(searchWord.searchWord.toLowerCase()) !== -1)) {
+          if (shortSavedMovies.indexOf(true) !== -1) {
+             if(item.duration <= 40) {
+              massSavedLocalSort.push(item);
+             }
+          } else {
+            massSavedLocalSort.push(item);
+          }
+        }
+      });
+      console.log(massSavedLocalSort);
+      localStorage.setItem('filtrSavedMovies', JSON.stringify(massSavedLocalSort));
+      setTestState(massSavedLocalSort);
     }
-
-    setSwitchOnSwortMovies(searchWord.shortMovies);
-    localStorage.setItem('onlyShort', JSON.stringify(searchWord.shortMovies));
-    handleLoadingMovies(searchWord);
-    setIsLoading(false);
   }
 
   function handleLoadingMovies(searchWord) {
     let massLocal = [];
     let massLocalSort = [];
-    let shortFilms = localStorage.getItem('onlyShort');
+    let shortSavedMovies = localStorage.getItem('onlyShort');
+    localStorage.setItem('searchWord', searchWord.searchWord);
     massLocal = JSON.parse(localStorage.getItem('movies'));
     massLocal.forEach(item => {
       if ((item.nameRU.toLowerCase().indexOf(searchWord.searchWord.toLowerCase()) !== -1)) {
-        if(shortFilms.indexOf(true) !== -1) {
+        if(shortSavedMovies.indexOf(true) !== -1) {
           if(item.duration <= 40) {
             massLocalSort.push(item);
           }
@@ -154,7 +223,9 @@ function App() {
     preRenderCardsOptions(countCardsAdd.firstCount);
   }
 
+
   function preRenderCardsOptions (count) {
+    console.log(disableButtonAdd);
     setCardsMoviesFiltrCount([]);
     let matrix = [];
     let filterMovies = JSON.parse(localStorage.getItem('filterMovies'));
@@ -172,7 +243,6 @@ function App() {
   }
 
   function renderCardsOptions() {
-    console.log(width)
     let matrix = [];
     let filterMovies = JSON.parse(localStorage.getItem('filterMovies'));
     let count = countCardsAdd.nextCount;
@@ -188,7 +258,7 @@ function App() {
     
     for (let i = 0; i < tempCountMovies + count; i++) {
       matrix.push(filterMovies[i]);
-      setDisableButtonAdd(false);
+      setDisableButtonAdd(true);
     }
 
     setCountMovies(tempCountMovies + count);
@@ -212,7 +282,10 @@ function App() {
         .catch((err) => console.log(err));
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setIsRegPopupOpen(true);
+    })
     .finally(() => setIsLoading(false));
   }
 
@@ -228,7 +301,10 @@ function App() {
         setLoggedIn(false);
       }
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setIsRegPopupOpen(true);
+    })
     .finally(() => setIsLoading(false));
   }
 
@@ -239,7 +315,10 @@ function App() {
       history.push('/');
       setLoggedIn(false);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setIsRegPopupOpen(true);
+    })
     .finally(() => setIsLoading(false));
   }
 
@@ -247,7 +326,10 @@ function App() {
     setIsLoading(true);
     mainApi.updateUser(newData.email, newData.name)
     .then((newUser) => setCurrentUser(newUser))
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      setIsRegPopupOpen(true);
+    })
     .finally(() => setIsLoading(false));
   }
 
@@ -276,7 +358,10 @@ function App() {
       .then((newCard) => {
         setTestState([newCard, ...testState]);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      setIsRegPopupOpen(true);
+      console.log(err);
+    });
   }
 
   function handleDeleteMovie(movieID, mId) {
@@ -284,7 +369,10 @@ function App() {
     .then(() => {
       setTestState(movie => movie.filter(c => c.movieId !== movieID));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      setIsRegPopupOpen(true);
+      console.log(err);
+    });
   }
   
   return (
@@ -314,6 +402,7 @@ function App() {
               movies = {cardsMoviesFiltrCount ? cardsMoviesFiltrCount : cardsMoviesFiltr}
               savedMovies = {testState}
               onFindMovies = {handleFiltrMovies}
+              onFindMoviesOpt = {handleFindShordMovies}
               pathForIf = 'movies'
               onClickButton = {renderCardsOptions}
               onLoading = {isLoading}
@@ -329,7 +418,10 @@ function App() {
               isMenuOpen={isMenuOpen}
               onOpenMenu={handleOpenMenu}
               onCardDelete = {handleDeleteMovie}
+              onShortMovies = {switchOnSwortSavedMovies}
               savedMovies={testState}
+              onFindMovies = {handleFiltrSavedMovies}
+              onFindMoviesOpt = {handleFindShordSavedMovies}
               pathForIf='savedMovies'>
             </ProtectedRouteSavedMovies>
             <ProtectedRouteAccount exact path="/myAccount"
@@ -353,6 +445,11 @@ function App() {
             </Route>
           </Switch>
         </div>
+
+        <InfoTooltip
+          isOpen={isRegPopupOpen}
+          onClose={handleCloseButton} />
+
       </div>
     </CurrenUserContext.Provider>
   )

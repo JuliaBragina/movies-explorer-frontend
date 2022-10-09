@@ -23,7 +23,7 @@ function MoviesCardList({ movies, onCardLike, pathForIf, onCardDelete, savedMovi
                     ? movies.map((movie) => <MoviesCard key={movie.id} movie={movie} savedMovies={savedMovies} onCardLike={onCardLike}/>)
                     : <MoviesNotFound />
                 }
-              </>
+             </>
         }
       </>
     </div> 

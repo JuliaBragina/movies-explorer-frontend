@@ -8,14 +8,14 @@ import React from 'react';
 
 const schema = yup.object({
   name: yup.string().min(2).max(30),
-  email: yup.string().email().required(),
+  email: yup.string().email(),
 }).required();
 
 function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
   const currentUser = React.useContext(CurrenUserContext);
 
   const { register, formState: {errors, isValid} } = useForm({
-    mode: 'all',
+    mode: 'onBlur',
     resolver: yupResolver(schema)
   });
 
@@ -54,7 +54,7 @@ function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
             type='text'
             className='account__input'
             autoComplete="off"
-            value={name || " "} 
+            value={name || ""} 
             onChange={handlerChangeName}>
           </input>
           <label className='account__label'>Имя</label>
@@ -66,7 +66,7 @@ function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
             type='email'
             className='account__input'
             autoComplete="off"
-            value={email || " "}
+            value={email || ""}
             onChange={handlerChangeEmail}>
           </input>
           <label className='account__label'>E-mail</label>
