@@ -27,6 +27,7 @@ function App() {
   const [switchOnSwortSavedMovies, setSwitchOnSwortSavedMovies] = useState(localStorage.getItem('onlySavedShort') || false);
   const [currenUser, setCurrentUser] = useState({});
   const [testState, setTestState] = useState([]);
+  const [testStateSave, setTestStatSave] = useState([]);
   const [disableButtonAdd, setDisableButtonAdd] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +41,8 @@ function App() {
   const [isRegPopupOpen, setIsRegPopupOpen] = useState(false);
 
   useEffect(() => {
-     setDisableButtonAdd(true);
-  }, [changeSearchFrom]);
+    setDisableButtonAdd(true);
+  }, [switchOnSwortMovies]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResizeWindow);
@@ -64,43 +65,53 @@ function App() {
 
   useEffect(() => {
     setSwitchOnSwortMovies(localStorage.getItem('onlyShort'));
-    setSwitchOnSwortSavedMovies(localStorage.getItem('onlySavedShort'));
   }, [switchOnSwortMovies]);
 
   useEffect(() => {
-    mainApi.getMe()
-    .then((user) => {
-      if (user) {
-        history.push(location.pathname);
-        setLoggedIn(true);
-        setCurrentUser(user);
-      } else {
-        history.push('/signin');
-        setLoggedIn(false);
-      }
-    })
-    .catch((err) => console.log(err));
-  }, []);
+    setSwitchOnSwortSavedMovies(localStorage.getItem('onlySavedShort'));
+  }, [switchOnSwortSavedMovies]);
 
   useEffect(() => {
     if (loggedIn) {
       mainApi.getSavedMovies()
       .then(movies => {
         setTestState(movies);
+        setTestStatSave(movies);
         localStorage.setItem('savedMovies', JSON.stringify(movies));
       })
       .catch(err => console.log(err));
 
       mainApi.getMe()
-      .then(user => setCurrentUser(user))
-      .catch(err => console.log(err));
+      .then(user => {
+        history.push(location.pathname);
+        setLoggedIn(true);
+        setCurrentUser(user);
+      })
+      .catch(err => {
+        history.push('/signin');
+        setLoggedIn(false)
+      });
     }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    mainApi.getMe()
+    .then(user => {
+      history.push(location.pathname);
+      setLoggedIn(true);
+      setCurrentUser(user);
+    })
+    .catch(err => {
+      history.push('/signin');
+      setLoggedIn(false)
+    });
   }, [loggedIn]);
 
   useEffect(() => {
     mainApi.getSavedMovies()
     .then(movies => {
       setTestState(movies);
+      setTestStatSave(movies);
       localStorage.setItem('savedMovies', JSON.stringify(movies));
     })
     .catch(err => console.log(err));
@@ -131,7 +142,7 @@ function App() {
 
   useEffect(() => {
     let searchWord = localStorage.getItem('searchWord');
-    if(searchWord.indexOf('undefined') === -1 ) {
+    if((searchWord.indexOf('undefined') === -1 )&&(searchWord !== '')) {
       handleFiltrMovies({ searchWord: searchWord, location: 'movies' });
     }
   }, [switchOnSwortMovies]);
@@ -171,6 +182,7 @@ function App() {
 
   const handleChangeSearchForm = () => {
     setChangeSearchForm(true);
+    setDisableButtonAdd(true);
   }
 
   const handleCloseButton = () => {
@@ -231,8 +243,14 @@ function App() {
     let filterMovies = JSON.parse(localStorage.getItem('filterMovies'));
 
     if (filterMovies.length < count) {
+      console.log(filterMovies.length, count)
       count = filterMovies.length;
-      setDisableButtonAdd(true);
+      setDisableButtonAdd(false);
+    }
+
+    if(filterMovies.length === count) {
+      console.log(filterMovies.length, count)
+      setDisableButtonAdd(false);
     }
 
     for (let i = 0; i < count; i++) {
@@ -252,13 +270,17 @@ function App() {
       count = filterMovies.length - tempCountMovies;
     }
 
-    if(filterMovies.length === tempCountMovies) {
-      setDisableButtonAdd(true);
+    if (filterMovies.length === tempCountMovies + count) {
+      console.log(filterMovies.length, tempCountMovies + count)
+      setDisableButtonAdd(false);
     }
     
     for (let i = 0; i < tempCountMovies + count; i++) {
       matrix.push(filterMovies[i]);
-      setDisableButtonAdd(true);
+      if( i === tempCountMovies + count ) {
+        console.log(tempCountMovies + count)
+        setDisableButtonAdd(false);
+      }
     }
 
     setCountMovies(tempCountMovies + count);
@@ -308,12 +330,15 @@ function App() {
     .finally(() => setIsLoading(false));
   }
 
-  const handleLogout = () => {
+  function handleLogout() {
+    console.log('logout');
     setIsLoading(true);
     mainApi.logout()
     .then((res) => {
       history.push('/');
       setLoggedIn(false);
+      console.log(res);
+      localStorage.clear();
     })
     .catch((err) => {
       console.log(err);
@@ -357,6 +382,7 @@ function App() {
     mainApi.setLikeMovie(movie.country, movie.director, movie.duration, movie.year, movie.description, movie.image.url, movie.trailerLink, movie.id, movie.image.url, movie.nameRU, movie.nameEN)
       .then((newCard) => {
         setTestState([newCard, ...testState]);
+        setTestStatSave([newCard, ...testState]);
     })
     .catch(err => {
       setIsRegPopupOpen(true);
@@ -400,7 +426,7 @@ function App() {
               onOpenMenu = {handleOpenMenu}
               onCardLike = {handleCardLikeDisLike}
               movies = {cardsMoviesFiltrCount ? cardsMoviesFiltrCount : cardsMoviesFiltr}
-              savedMovies = {testState}
+              savedMovies = {testStateSave}
               onFindMovies = {handleFiltrMovies}
               onFindMoviesOpt = {handleFindShordMovies}
               pathForIf = 'movies'
@@ -435,7 +461,7 @@ function App() {
               onLoading = {isLoading} >
             </ProtectedRouteAccount>
             <Route path="/signup">
-              <Register onRegisterUser={handleRegisterUser}  onLoading = {isLoading}/>
+              <Register onRegisterUser={handleRegisterUser} onLoading = {isLoading}/>
             </Route>
             <Route path="/signin">
               <Login onLoginUser={handleLoginUser} onLoading = {isLoading}/>

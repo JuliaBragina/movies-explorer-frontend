@@ -17,12 +17,7 @@ function Movies({ movies, onCardLike, pathForIf, onCardDelete, isMenuOpen, onFin
       </>
       <>
       {
-        onDisableButton &&
-        <>
-          {
-            pathForIf === 'movies' && <Add onClickButton={onClickButton} onDisableButton={onDisableButton}/>
-          }
-        </>
+        (onDisableButton && pathForIf === 'movies') && <Add onClickButton={onClickButton}/>
       }
       </>
     </main>

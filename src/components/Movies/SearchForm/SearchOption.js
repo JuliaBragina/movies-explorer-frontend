@@ -3,12 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 
 function SearchOption({ onFindMoviesOpt, onShortMovies, pathForIf }) {
-  console.log(onShortMovies);
   const location = useLocation();
   const [shortMovies, setShortMovies] = useState(false);
+  let shortSvMovLocal = JSON.parse(localStorage.getItem('onlySavedShort'));
+  let shortMovLocal = JSON.parse(localStorage.getItem('onlyShort'));
 
   useEffect(() => {
-    setShortMovies(onShortMovies);
+    if(pathForIf === 'movies') {
+      setShortMovies(shortMovLocal);
+    } else {
+      setShortMovies(shortSvMovLocal);
+    }
   }, []);
     
   function handleFindShordMovies(e) {
@@ -33,8 +38,7 @@ function SearchOption({ onFindMoviesOpt, onShortMovies, pathForIf }) {
             id="checkbox"
             className="searchFrom__checkbox"
             checked={shortMovies}
-            onChange={handleFindShordMovies}
-            defaultChecked={shortMovies} />
+            onChange={handleFindShordMovies}/>
           <div className="searchFrom__slider"></div>
         </label>
         <span className="searchFrom__text">Короткометражки</span>

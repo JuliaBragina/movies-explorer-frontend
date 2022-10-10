@@ -12,9 +12,10 @@ const schema = yup.object({
 }).required();
 
 function Register({ onRegisterUser, onLoading }) {
+
   const { register, formState: {errors, isValid} } = useForm({
     mode: 'all',
-    esolver: yupResolver(schema)
+    resolver: yupResolver(schema)
   });
 
   const [name, setName] = useState('');

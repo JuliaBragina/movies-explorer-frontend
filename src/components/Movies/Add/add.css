@@ -30,9 +30,6 @@
   opacity: .5;
 }
 
-.add__button:disabled{
-  display: none;
-}
 
 @media screen and (max-width: 560px) {
   .add__button{

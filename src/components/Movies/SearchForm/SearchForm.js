@@ -6,7 +6,7 @@ function SearchForm({ onFindMovies, onFindMoviesOpt, onChangeSerachFrom, onShort
   return (
     <>
       <SearchMovies onFindMovies={onFindMovies} onChangeSerachFrom={onChangeSerachFrom}/>
-      <SearchOption onFindMoviesOpt={onFindMoviesOpt} onShortMovies={onShortMovies} />
+      <SearchOption onFindMoviesOpt={onFindMoviesOpt} onShortMovies={onShortMovies} pathForIf={pathForIf}/>
     </>
   ) 
 }

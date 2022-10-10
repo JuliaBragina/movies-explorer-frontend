@@ -77,7 +77,7 @@ function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
 
         <section className="account__buttons">
           <button type='submit' className="account__button" onClick={handleUpdateFrom} disabled={onLoading || !isValid}>{onLoading ? 'Сохранение...' : "Редактировать"}</button>
-          <button className="account__button" onClick={onLogout}>Выйти из аккаунта</button>
+          <button type='submit' className="account__button" onClick={onLogout}>Выйти из аккаунта</button>
         </section>
       </form>
     </main>
