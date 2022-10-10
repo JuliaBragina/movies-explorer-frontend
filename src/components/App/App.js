@@ -94,18 +94,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
-    mainApi.getMe()
-    .then(user => {
-      history.push(location.pathname);
-      setLoggedIn(true);
-      setCurrentUser(user);
-    })
-    .catch(err => {
-      history.push('/signin');
-      setLoggedIn(false)
-    });
-  }, [loggedIn]);
+
 
   useEffect(() => {
     mainApi.getSavedMovies()
@@ -194,6 +183,9 @@ function App() {
     let massSavedLocalSort = [];
     localStorage.setItem('searchSavedWord', searchWord.searchWord);
     let shortSavedMovies = localStorage.getItem('onlySavedShort');
+    if (shortSavedMovies === null) {
+      shortSavedMovies = 'false';
+    }
     if ((localStorage.getItem('savedMovies') !== null)) {
       massSavedLocal = JSON.parse(localStorage.getItem('savedMovies'));
       massSavedLocal.forEach(item => {
@@ -217,6 +209,9 @@ function App() {
     let massLocal = [];
     let massLocalSort = [];
     let shortSavedMovies = localStorage.getItem('onlyShort');
+    if (shortSavedMovies === null) {
+      shortSavedMovies = 'false';
+    }
     localStorage.setItem('searchWord', searchWord.searchWord);
     massLocal = JSON.parse(localStorage.getItem('movies'));
     massLocal.forEach(item => {
