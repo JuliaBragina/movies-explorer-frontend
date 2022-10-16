@@ -6,7 +6,7 @@ import './popupAuth.css';
 function PopupAuth({ children, logo, textWelcome, linkButton, link, linkText, buttonText, paragr, onSubmit, validButton, onLoading }) {
     return(
       <div className="popupAuth">
-        <img src={logo} className="logo popupAuth__img" alt="logo"></img>
+        <Link to='/'><img src={logo} className="logo popupAuth__img" alt="logo"></img></Link>
         <p className='popupAuth__welcome'>{textWelcome}</p>
         <form className='popupAuth__form'>
 

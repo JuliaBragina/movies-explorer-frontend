@@ -39,6 +39,9 @@ function App() {
   const [width, setWidth] = useState(window.innerWidth);
   const [countCardsAdd, setCountCardsAdd] = useState({firstCount: 12, nextCount: 4});
   const [isRegPopupOpen, setIsRegPopupOpen] = useState(false);
+  const [isUpdateUser, setIsUpdateUser] = useState(false);
+  const [changeCardStatus, setChangeCardStatus] = useState(false);
+  const [showSavedRes, setShowSavedRes] =  useState(false);
 
   useEffect(() => {
     setDisableButtonAdd(true);
@@ -72,29 +75,31 @@ function App() {
   }, [switchOnSwortSavedMovies]);
 
   useEffect(() => {
+    console.log(loggedIn);
     if (loggedIn) {
+      mainApi.getMe()
+      .then(user => {
+        console.log(user);
+        history.push('/movies');
+        setCurrentUser(user);
+      })
+      .catch(err => {
+        console.log('разлогинился')
+        history.push('/signin');
+      });
+
       mainApi.getSavedMovies()
       .then(movies => {
         setTestState(movies);
         setTestStatSave(movies);
         localStorage.setItem('savedMovies', JSON.stringify(movies));
       })
-      .catch(err => console.log(err));
-
-      mainApi.getMe()
-      .then(user => {
-        history.push(location.pathname);
-        setLoggedIn(true);
-        setCurrentUser(user);
-      })
       .catch(err => {
-        history.push('/signin');
-        setLoggedIn(false)
+        console.log(err);
+        console.log('разлогинился')
       });
     }
   }, [loggedIn]);
-
-
 
   useEffect(() => {
     mainApi.getSavedMovies()
@@ -104,34 +109,20 @@ function App() {
       localStorage.setItem('savedMovies', JSON.stringify(movies));
     })
     .catch(err => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/movies');
-    } else {
-      history.push('/signin');
-    }
-  }, [loggedIn]);
+  }, [changeCardStatus]);
 
   const handleResizeWindow = () => setWidth(window.innerWidth);
 
   useEffect(() => {
-    localStorage.setItem('searchSavedWord', '');
-    localStorage.setItem('searchWord', '');
-    localStorage.setItem('filterMovies', '');
-  }, []);
-
-  useEffect(() => {
     let searchSavedWord = localStorage.getItem('searchSavedWord');
-    if(searchSavedWord.indexOf('undefined') === -1 ) {
+    if((searchSavedWord !== null) && (searchSavedWord.indexOf('undefined') === -1 )) {
       handleFiltrSavedMovies({ searchWord: searchSavedWord, location: 'savedMovies' });
     }
   }, [switchOnSwortSavedMovies]);
 
   useEffect(() => {
     let searchWord = localStorage.getItem('searchWord');
-    if((searchWord.indexOf('undefined') === -1 )&&(searchWord !== '')) {
+    if((searchWord !== null) && (searchWord.indexOf('undefined') === -1 )&&(searchWord !== '')) {
       handleFiltrMovies({ searchWord: searchWord, location: 'movies' });
     }
   }, [switchOnSwortMovies]);
@@ -183,7 +174,7 @@ function App() {
     let massSavedLocalSort = [];
     localStorage.setItem('searchSavedWord', searchWord.searchWord);
     let shortSavedMovies = localStorage.getItem('onlySavedShort');
-    if (shortSavedMovies === null) {
+    if (searchWord.searchWord === null) {
       shortSavedMovies = 'false';
     }
     if ((localStorage.getItem('savedMovies') !== null)) {
@@ -291,9 +282,11 @@ function App() {
         mainApi.login(data.email, data.password)
         .then((res) => {
           if(res){
+            setLoggedIn(true);
             history.push('/movies');
           } else {
             console.log('токена нет');
+            setLoggedIn(false);
           }
         })
         .catch((err) => console.log(err));
@@ -326,16 +319,15 @@ function App() {
   }
 
   function handleLogout() {
-    console.log('logout');
     setIsLoading(true);
     mainApi.logout()
     .then((res) => {
       history.push('/');
       setLoggedIn(false);
-      console.log(res);
       localStorage.clear();
     })
     .catch((err) => {
+      setLoggedIn(true);
       console.log(err);
       setIsRegPopupOpen(true);
     })
@@ -345,7 +337,11 @@ function App() {
   function handleUpdateUser(newData) {
     setIsLoading(true);
     mainApi.updateUser(newData.email, newData.name)
-    .then((newUser) => setCurrentUser(newUser))
+    .then((newUser) => {
+      setCurrentUser(newUser);
+      setIsRegPopupOpen(true);
+      setIsUpdateUser(true);
+    })
     .catch((err) => {
       console.log(err);
       setIsRegPopupOpen(true);
@@ -376,8 +372,10 @@ function App() {
   function handleCardLike(movie) {
     mainApi.setLikeMovie(movie.country, movie.director, movie.duration, movie.year, movie.description, movie.image.url, movie.trailerLink, movie.id, movie.image.url, movie.nameRU, movie.nameEN)
       .then((newCard) => {
+        setChangeCardStatus(true);
         setTestState([newCard, ...testState]);
         setTestStatSave([newCard, ...testState]);
+        localStorage.setItem('savedMovies', JSON.stringify(testStateSave));
     })
     .catch(err => {
       setIsRegPopupOpen(true);
@@ -388,7 +386,10 @@ function App() {
   function handleDeleteMovie(movieID, mId) {
     mainApi.deleteLike(mId)
     .then(() => {
+      setChangeCardStatus(true);
       setTestState(movie => movie.filter(c => c.movieId !== movieID));
+      setTestStatSave(movie => movie.filter(c => c.movieId !== movieID));
+      localStorage.setItem('savedMovies', JSON.stringify(testStateSave));
     })
     .catch((err) => {
       setIsRegPopupOpen(true);
@@ -456,10 +457,10 @@ function App() {
               onLoading = {isLoading} >
             </ProtectedRouteAccount>
             <Route path="/signup">
-              <Register onRegisterUser={handleRegisterUser} onLoading = {isLoading}/>
+              <Register onRegisterUser={handleRegisterUser} onLoading={isLoading}/>
             </Route>
             <Route path="/signin">
-              <Login onLoginUser={handleLoginUser} onLoading = {isLoading}/>
+              <Login onLoginUser={handleLoginUser} onLoading={isLoading}/>
             </Route>
             <Route exact path='*'>
               <NotFound />
@@ -469,7 +470,8 @@ function App() {
 
         <InfoTooltip
           isOpen={isRegPopupOpen}
-          onClose={handleCloseButton} />
+          onClose={handleCloseButton}
+          updateUserInf={isUpdateUser} />
 
       </div>
     </CurrenUserContext.Provider>

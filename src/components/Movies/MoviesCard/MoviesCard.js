@@ -2,6 +2,7 @@ import './moviesCard.css';
 import React from 'react';
 
 function MoviesCard({ movie, onCardLike, savedMovies }) {
+  console.log(savedMovies);
   const isCardLiked = savedMovies.some(i => i.movieId === movie.id);
   
   return (

@@ -9,8 +9,20 @@ function SerachMovies({ onFindMovies, onChangeSerachFrom, onShortMovies, pathFor
     mode: 'all'
   });
 
+  let searcSavedhWordLocal = localStorage.getItem('searchSavedWord');
+  let searchWordLocal = localStorage.getItem('searchWord');
+
   const location = useLocation();
   const [searchWord, setSearchWord] = useState('');
+
+  useEffect(() => {
+    if(pathForIf === 'movies') {
+      setSearchWord(searchWordLocal);
+    } else {
+      setSearchWord('');
+      localStorage.setItem('searchSavedWord', '');
+    }
+  }, [])
 
   function handleWriteSearchWord(e) {
     setSearchWord(e.target.value);

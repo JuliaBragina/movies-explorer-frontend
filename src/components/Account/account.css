@@ -43,6 +43,7 @@
   line-height: 13px;
   color: #fff;
   text-indent: 15px;
+  display: block;
 
   width: 410px;
   height: 14px;
@@ -86,7 +87,6 @@
   align-items: center;
   padding-bottom: 70px;
 }
-
 
 .account__button{
   background: transparent;
@@ -132,10 +132,9 @@
 .account__button:last-of-type{
   color:#EE3465;
 }
-
 .account__button:disabled{
-  cursor: auto;
-  opacity: .5;
+   cursor: auto;
+   opacity: .5;
 }
 
 @media screen and (max-width: 768px) {

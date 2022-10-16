@@ -12,7 +12,9 @@ function SearchOption({ onFindMoviesOpt, onShortMovies, pathForIf }) {
     if(pathForIf === 'movies') {
       setShortMovies(shortMovLocal);
     } else {
-      setShortMovies(shortSvMovLocal);
+      localStorage.setItem('onlySavedShort', JSON.stringify(false));
+      setShortMovies(false);
+      console.log('here');
     }
   }, []);
     
@@ -26,6 +28,7 @@ function SearchOption({ onFindMoviesOpt, onShortMovies, pathForIf }) {
       shortMovies,
       location
     });
+    console.log(shortMovies, location);
   }
 
   return(
