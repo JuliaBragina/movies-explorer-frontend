@@ -3,8 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import SavedMoviesCard from '../SavedMoviesCard/SavedMoviesCard';
 import MoviesNotFound from '../MoviesNotFound/MoviesNotFound';
 
-function MoviesCardList({ movies, onCardLike, pathForIf, onCardDelete, savedMovies }) {
-  
+function MoviesCardList({ movies, onCardLike, pathForIf, onCardDelete, savedMovies, onDisableNotFound, onLoading }) {
   return (
     <div className="moviesCardList">
       <>
@@ -21,7 +20,7 @@ function MoviesCardList({ movies, onCardLike, pathForIf, onCardDelete, savedMovi
                 {
                   movies.length !== 0
                     ? movies.map((movie) => <MoviesCard key={movie.id} movie={movie} savedMovies={savedMovies} onCardLike={onCardLike}/>)
-                    : <MoviesNotFound />
+                    : (!onDisableNotFound || onLoading) && <MoviesNotFound />
                 }
              </>
         }

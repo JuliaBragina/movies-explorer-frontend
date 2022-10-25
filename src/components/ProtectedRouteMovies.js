@@ -6,12 +6,12 @@ const ProtectedRouteMovies = ({componentHeader: ComponentHeader, componentMain: 
     <Route>
       {
         () => props.loggedIn 
-              ? <>
-                  <ComponentHeader {...props} />
-                  <ComponentMain {...props} />
-                  <ComponentFooter />
-                </>
-              : <Redirect to="/signin" />
+          ? <>
+              <ComponentHeader {...props} />
+              <ComponentMain {...props} />
+              <ComponentFooter />
+            </>
+          : <Redirect to="/signin" />
       }
     </Route>
 )}

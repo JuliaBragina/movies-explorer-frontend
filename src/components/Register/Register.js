@@ -4,10 +4,11 @@ import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { VALIDATIONEMAIL } from '../../utils/constants';
 
 const schema = yup.object({
   name: yup.string().min(2).max(30).required(),
-  email: yup.string().email().required(),
+  email: yup.string().matches(VALIDATIONEMAIL).required(),
   password: yup.string().required(),
 }).required();
 

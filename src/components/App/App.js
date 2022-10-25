@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory,Redirect } from 'react-router-dom';
 import { Switch, Route, useLocation } from "react-router-dom";
 import { CurrenUserContext } from '../../contexts/CurrentUserContext';
 import HeaderLanding from '../HeaderLanding/HeaderLanding';
@@ -18,6 +18,7 @@ import NotFound from '../NotFound/NotFound';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import { MAXWIDTH, PREMAXWIDTH, MIDDLEWIDTH, PREMIDDLEWIDTH, TABLETWIDTH, PRETABLETWIDTH, MINWIDTH, MAXCOUNTPRERENDER, MIDDLECOUNTRERENDER, MINCOUNTRERENDER, MAXCOUNT, MIDDLECOUNT, MINCOUNT } from '../../utils/constants';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
   const [testState, setTestState] = useState([]);
   const [testStateSave, setTestStatSave] = useState([]);
   const [disableButtonAdd, setDisableButtonAdd] = useState(true);
+  const [disableNotFound, setDisableNotFound] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [changeSearchFrom, setChangeSearchForm] = useState(true);
@@ -37,32 +39,84 @@ function App() {
   const history = useHistory();
   const location = useLocation();
   const [width, setWidth] = useState(window.innerWidth);
-  const [countCardsAdd, setCountCardsAdd] = useState({firstCount: 12, nextCount: 4});
+  const [countCardsAdd, setCountCardsAdd] = useState({firstCount: MAXCOUNTPRERENDER, nextCount: MAXCOUNT});
   const [isRegPopupOpen, setIsRegPopupOpen] = useState(false);
   const [isUpdateUser, setIsUpdateUser] = useState(false);
   const [changeCardStatus, setChangeCardStatus] = useState(false);
   const [showSavedRes, setShowSavedRes] =  useState(false);
 
   useEffect(() => {
+    if (loggedIn) {
+      mainApi.getMe()
+        .then(user => {
+          setCurrentUser(user);
+          mainApi.getSavedMovies()
+          .then(movies => {
+            setTestState(movies);
+            setTestStatSave(movies);
+            localStorage.setItem('savedMovies', JSON.stringify(movies));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if(loggedIn) {
+      history.push('/movies');
+    } else {
+      setCurrentUser({});
+      localStorage.clear();
+      history.push('/');
+    }
+  }, [loggedIn]);
+
+
+  useEffect(() => {
+    mainApi.getMe()
+      .then(user => {
+        setLoggedIn(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoggedIn(false);
+    });
+  }, []);
+
+  useEffect(() => {
     setDisableButtonAdd(true);
   }, [switchOnSwortMovies]);
+
+  useEffect(() => {
+    setDisableButtonAdd(false);
+    setDisableNotFound(true);
+  }, [loggedIn]);
+
+  useEffect(() => {
+    setShowSavedRes(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResizeWindow);
   }, [width]);
 
   useEffect(() => {
-    if (width === 1280) {
-      setCountCardsAdd({firstCount: 12, nextCount: 4});
+    if (width === MAXWIDTH) {
+      setCountCardsAdd({firstCount: MAXCOUNTPRERENDER, nextCount: MAXCOUNT});
     }
-    if ((1025 <= width)&&(width <= 1279)) {
-      setCountCardsAdd({firstCount: 12, nextCount: 3});
+    if ((1025 <= MIDDLEWIDTH)&&(width <= PREMAXWIDTH)) {
+      setCountCardsAdd({firstCount: MAXCOUNTPRERENDER, nextCount: MIDDLECOUNT});
     }
-    if ((581 <= width)&&(width <= 1024)) {
-      setCountCardsAdd({firstCount: 8, nextCount: 2});
+    if ((TABLETWIDTH <= width)&&(width <= PREMIDDLEWIDTH)) {
+      setCountCardsAdd({firstCount: MIDDLECOUNTRERENDER, nextCount: MINCOUNT});
     }
-    if ((320 <= width)&&(width <= 580)) {
-      setCountCardsAdd({firstCount: 5, nextCount: 2});
+    if ((MINWIDTH <= width)&&(width <= PRETABLETWIDTH)) {
+      setCountCardsAdd({firstCount: MINCOUNTRERENDER, nextCount: MINCOUNT});
     }
   }, [width]);
 
@@ -73,33 +127,6 @@ function App() {
   useEffect(() => {
     setSwitchOnSwortSavedMovies(localStorage.getItem('onlySavedShort'));
   }, [switchOnSwortSavedMovies]);
-
-  useEffect(() => {
-    console.log(loggedIn);
-    if (loggedIn) {
-      mainApi.getMe()
-      .then(user => {
-        console.log(user);
-        history.push('/movies');
-        setCurrentUser(user);
-      })
-      .catch(err => {
-        console.log('разлогинился')
-        history.push('/signin');
-      });
-
-      mainApi.getSavedMovies()
-      .then(movies => {
-        setTestState(movies);
-        setTestStatSave(movies);
-        localStorage.setItem('savedMovies', JSON.stringify(movies));
-      })
-      .catch(err => {
-        console.log(err);
-        console.log('разлогинился')
-      });
-    }
-  }, [loggedIn]);
 
   useEffect(() => {
     mainApi.getSavedMovies()
@@ -121,6 +148,7 @@ function App() {
   }, [switchOnSwortSavedMovies]);
 
   useEffect(() => {
+    setDisableNotFound(false);
     let searchWord = localStorage.getItem('searchWord');
     if((searchWord !== null) && (searchWord.indexOf('undefined') === -1 )&&(searchWord !== '')) {
       handleFiltrMovies({ searchWord: searchWord, location: 'movies' });
@@ -128,11 +156,13 @@ function App() {
   }, [switchOnSwortMovies]);
 
   const handleFindShordSavedMovies = (shortMovies) => {
+    setShowSavedRes(true);
     setSwitchOnSwortSavedMovies(shortMovies.shortMovies);
     localStorage.setItem('onlySavedShort', JSON.stringify(shortMovies.shortMovies));
   }
 
   const handleFindShordMovies = (searchWord) => {
+    setDisableNotFound(false);
     setSwitchOnSwortMovies(searchWord.shortMovies);
     localStorage.setItem('onlyShort', JSON.stringify(searchWord.shortMovies));
   }
@@ -143,6 +173,7 @@ function App() {
     if ((localStorage.getItem('movies') === null)) {
       await moviesApi.getAllCards()
       .then(res => {
+        setDisableNotFound(false);
         localStorage.setItem('movies', JSON.stringify(res));
       })
       .catch(err =>{
@@ -163,6 +194,7 @@ function App() {
   const handleChangeSearchForm = () => {
     setChangeSearchForm(true);
     setDisableButtonAdd(true);
+    setDisableNotFound(false);
   }
 
   const handleCloseButton = () => {
@@ -170,6 +202,7 @@ function App() {
   }
 
   function handleFiltrSavedMovies(searchWord) {
+    setShowSavedRes(true);
     let massSavedLocal = []
     let massSavedLocalSort = [];
     localStorage.setItem('searchSavedWord', searchWord.searchWord);
@@ -200,6 +233,7 @@ function App() {
     let massLocal = [];
     let massLocalSort = [];
     let shortSavedMovies = localStorage.getItem('onlyShort');
+    setDisableNotFound(false);
     if (shortSavedMovies === null) {
       shortSavedMovies = 'false';
     }
@@ -224,6 +258,7 @@ function App() {
 
   function preRenderCardsOptions (count) {
     console.log(disableButtonAdd);
+    setDisableNotFound(false);
     setCardsMoviesFiltrCount([]);
     let matrix = [];
     let filterMovies = JSON.parse(localStorage.getItem('filterMovies'));
@@ -318,16 +353,16 @@ function App() {
     .finally(() => setIsLoading(false));
   }
 
-  function handleLogout() {
+  const handleLogout = () => {
     setIsLoading(true);
     mainApi.logout()
     .then((res) => {
       history.push('/');
       setLoggedIn(false);
+      setCurrentUser({});
       localStorage.clear();
     })
     .catch((err) => {
-      setLoggedIn(true);
       console.log(err);
       setIsRegPopupOpen(true);
     })
@@ -430,7 +465,8 @@ function App() {
               onLoading = {isLoading}
               onShortMovies = {switchOnSwortMovies}
               onChangeSerachFrom={handleChangeSearchForm}
-              onDisableButton = {disableButtonAdd}>
+              onDisableButton = {disableButtonAdd}
+              onDisableNotFound={disableNotFound}>
             </ProtectedRouteMovies>
             <ProtectedRouteSavedMovies exact path="/savedMovies"
               loggedIn={loggedIn}
@@ -441,7 +477,7 @@ function App() {
               onOpenMenu={handleOpenMenu}
               onCardDelete = {handleDeleteMovie}
               onShortMovies = {switchOnSwortSavedMovies}
-              savedMovies={testState}
+              savedMovies={showSavedRes ? testState : testStateSave}
               onFindMovies = {handleFiltrSavedMovies}
               onFindMoviesOpt = {handleFindShordSavedMovies}
               pathForIf='savedMovies'>
@@ -461,6 +497,9 @@ function App() {
             </Route>
             <Route path="/signin">
               <Login onLoginUser={handleLoginUser} onLoading={isLoading}/>
+            </Route>
+            <Route exact path="/">
+              {loggedIn ? <Redirect to="/movies" /> : <Redirect to="/" />}
             </Route>
             <Route exact path='*'>
               <NotFound />
