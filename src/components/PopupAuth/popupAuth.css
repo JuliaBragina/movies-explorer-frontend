@@ -42,6 +42,9 @@
   border-radius: 8px;
   outline: none;
   text-indent: 15px;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
 
   border: 0;
   padding: 0;

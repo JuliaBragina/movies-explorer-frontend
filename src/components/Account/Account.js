@@ -1,55 +1,94 @@
 import './account.css';
 import { useForm } from "react-hook-form"; 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import { useState } from 'react';
+import { CurrenUserContext } from '../../contexts/CurrentUserContext';
+import React from 'react';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from "joi";
 
-const schema = yup.object({
-  name: yup.string().min(2).max(30),
-  email: yup.string().email(),
+const schema = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
+  email: Joi.string().required().email({ tlds: { allow: false } }),
 }).required();
 
-function Account() {
+function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
+  const currentUser = React.useContext(CurrenUserContext);
 
-  const { register, handleSubmit, formState: {errors} } = useForm({
+  const { register, formState: {errors} } = useForm({
     mode: 'all',
-    resolver: yupResolver(schema)
+    resolver: joiResolver(schema)
   });
 
-  const onSubmit = () => {};
-  
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  function handlerChangeName(e) {
+    setName(e.target.value);
+  }
+
+  function handlerChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser]);
+
+  function handleUpdateFrom(e) {
+    e.preventDefault();
+    onUpdateForm({
+      name,
+      email,
+    });
+  }
+
+  function testFunction() {
+    if((currentUser.email !== email) || (currentUser.name !== name)) {
+      return 0;
+    } 
+    if((currentUser.email === email) && (currentUser.name === name)) {
+      return 1;
+    }
+  }
+   
   return(
     <main className='account'>
-      <h2 className="account__title">Привет, Юлия!</h2>
-      <form className='account__form' onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="account__title">Привет, {currentUser.name}</h2>
+      <form className='account__form'>
 
         <section className="account__section">
-          <input 
+          <input
             {...register("name")}
             type='text'
             className='account__input'
-            autoComplete="off">
+            autoComplete="off"
+            value={name || ""} 
+            onChange={handlerChangeName}
+            required>
           </input>
           <label className='account__label'>Имя</label>
         </section>
 
         <section className="account__section">
-          <input 
-            {...register("email")} 
-            type='email'
+          <input
+            {...register("email")}
+            type="email"
             className='account__input'
-            autoComplete="off">
+            autoComplete="off"
+            value={email || ""}
+            onChange={handlerChangeEmail}
+            required>
           </input>
           <label className='account__label'>E-mail</label>
         </section>
 
-        <span className="account__error">{errors?.name?.message}</span>
-        <span className="account__error">{errors?.email?.message}</span>
+        <span className='account__error'>{errors?.name?.message}</span>
+        <span className='account__error'>{errors?.email?.message}</span>
 
-        <section className="account__buttons">
-          <button type='onSubmit' className="account__button">Редактировать</button>
-          <button className="account__button">Выйти из аккаунта</button>
-        </section>
+        <button type='submit' className="account__button account__button_isUpdateUser" onClick={handleUpdateFrom} disabled={errors?.name || errors?.email || testFunction()  || onLoading}>{onLoading ? 'Сохранение...' : "Редактировать"}</button>
       </form>
+      <button type='submit' className="account__button account__button_isLogout" onClick={onLogout}>Выйти из аккаунта</button>
     </main>
   )
 }
