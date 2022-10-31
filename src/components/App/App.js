@@ -18,7 +18,7 @@ import NotFound from '../NotFound/NotFound';
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import { MAXWIDTH, PREMAXWIDTH, MIDDLEWIDTH, PREMIDDLEWIDTH, TABLETWIDTH, PRETABLETWIDTH, MINWIDTH, MAXCOUNTPRERENDER, MIDDLECOUNTRERENDER, MINCOUNTRERENDER, MAXCOUNT, MIDDLECOUNT, MINCOUNT } from '../../utils/constants';
+import { MAXWIDTH, PREMAXWIDTH, MIDDLEWIDTH, PREMIDDLEWIDTH, TABLETWIDTH, PRETABLETWIDTH, MINWIDTH, MAXCOUNTPRERENDER, MIDDLECOUNTRERENDER, MINCOUNTRERENDER, MAXCOUNT, MIDDLECOUNT, MINCOUNT, DURATIONSHORTMOVIES } from '../../utils/constants';
 
 function App() {
 
@@ -31,7 +31,7 @@ function App() {
   const [testStateSave, setTestStatSave] = useState([]);
   const [disableButtonAdd, setDisableButtonAdd] = useState(true);
   const [disableNotFound, setDisableNotFound] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn') ? localStorage.getItem('loggedIn').toLowerCase() === 'true' : false);
   const [isLoading, setIsLoading] = useState(false);
   const [changeSearchFrom, setChangeSearchForm] = useState(true);
   const [cardsMoviesFiltrCount, setCardsMoviesFiltrCount] = useState(false);
@@ -45,7 +45,9 @@ function App() {
   const [changeCardStatus, setChangeCardStatus] = useState(false);
   const [showSavedRes, setShowSavedRes] =  useState(false);
 
+
   useEffect(() => {
+    console.log("loggedIn1 is " + loggedIn);
     if (loggedIn) {
       mainApi.getMe()
         .then(user => {
@@ -61,32 +63,20 @@ function App() {
           });
         })
         .catch(err => {
-          console.log(err);
+          setLoggedIn(false);
         });
     }
   }, [loggedIn]);
 
   useEffect(() => {
     if(loggedIn) {
-      history.push('/movies');
+      //history.push('/movies');
     } else {
+      history.push('/');
       setCurrentUser({});
       localStorage.clear();
-      history.push('/');
     }
   }, [loggedIn]);
-
-
-  useEffect(() => {
-    mainApi.getMe()
-      .then(user => {
-        setLoggedIn(true);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoggedIn(false);
-    });
-  }, []);
 
   useEffect(() => {
     setDisableButtonAdd(true);
@@ -215,7 +205,7 @@ function App() {
       massSavedLocal.forEach(item => {
         if ((item.nameRU.toLowerCase().indexOf(searchWord.searchWord.toLowerCase()) !== -1)) {
           if (shortSavedMovies.indexOf(true) !== -1) {
-             if(item.duration <= 40) {
+             if(item.duration <= DURATIONSHORTMOVIES) {
               massSavedLocalSort.push(item);
              }
           } else {
@@ -242,7 +232,7 @@ function App() {
     massLocal.forEach(item => {
       if ((item.nameRU.toLowerCase().indexOf(searchWord.searchWord.toLowerCase()) !== -1)) {
         if(shortSavedMovies.indexOf(true) !== -1) {
-          if(item.duration <= 40) {
+          if(item.duration <= DURATIONSHORTMOVIES) {
             massLocalSort.push(item);
           }
         } else {
@@ -318,10 +308,12 @@ function App() {
         .then((res) => {
           if(res){
             setLoggedIn(true);
+            localStorage.setItem("loggedIn", true);
             history.push('/movies');
           } else {
             console.log('токена нет');
             setLoggedIn(false);
+            localStorage.setItem("loggedIn", false);
           }
         })
         .catch((err) => console.log(err));
@@ -340,6 +332,7 @@ function App() {
     .then((res) => {
       if (res) {
         setLoggedIn(true);
+        localStorage.setItem("loggedIn", true);
         history.push('/movies');
       } else {
         console.log('токена нет');
@@ -359,6 +352,7 @@ function App() {
     .then((res) => {
       history.push('/');
       setLoggedIn(false);
+      localStorage.setItem("loggedIn", false);
       setCurrentUser({});
       localStorage.clear();
     })
@@ -448,7 +442,7 @@ function App() {
               <Main/>
               <Footer />
             </Route>
-            <ProtectedRouteMovies exact path="/movies"
+            <ProtectedRouteMovies path="/movies"
               loggedIn={loggedIn}
               componentHeader = {Header}
               componentMain = {Movies}
@@ -468,7 +462,7 @@ function App() {
               onDisableButton = {disableButtonAdd}
               onDisableNotFound={disableNotFound}>
             </ProtectedRouteMovies>
-            <ProtectedRouteSavedMovies exact path="/savedMovies"
+            <ProtectedRouteSavedMovies path="/savedMovies"
               loggedIn={loggedIn}
               componentHeader = {Header}
               componentMain = {Movies}
@@ -482,7 +476,7 @@ function App() {
               onFindMoviesOpt = {handleFindShordSavedMovies}
               pathForIf='savedMovies'>
             </ProtectedRouteSavedMovies>
-            <ProtectedRouteAccount exact path="/myAccount"
+            <ProtectedRouteAccount path="/myAccount"
               loggedIn={loggedIn}
               componentHeader = {Header}
               componentAccount = {Account}
@@ -498,10 +492,7 @@ function App() {
             <Route path="/signin">
               <Login onLoginUser={handleLoginUser} onLoading={isLoading}/>
             </Route>
-            <Route exact path="/">
-              {loggedIn ? <Redirect to="/movies" /> : <Redirect to="/" />}
-            </Route>
-            <Route exact path='*'>
+            <Route path='*'>
               <NotFound />
             </Route>
           </Switch>

@@ -2,13 +2,13 @@ import './account.css';
 import { useForm } from "react-hook-form"; 
 import { useState } from 'react';
 import { CurrenUserContext } from '../../contexts/CurrentUserContext';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
 import React from 'react';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from "joi";
 
-const schema = yup.object({
-  name: yup.string().min(2).max(30).required(),
-  email: yup.string().email().required(),
+const schema = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
+  email: Joi.string().required().email({ tlds: { allow: false } }),
 }).required();
 
 function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
@@ -16,7 +16,7 @@ function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
 
   const { register, formState: {errors} } = useForm({
     mode: 'all',
-    resolver: yupResolver(schema)
+    resolver: joiResolver(schema)
   });
 
   const [name, setName] = useState('');
@@ -86,11 +86,9 @@ function Account({ onUpdateUser, onLogout, onUpdateForm, onLoading }) {
         <span className='account__error'>{errors?.name?.message}</span>
         <span className='account__error'>{errors?.email?.message}</span>
 
-        <section className="account__buttons">
-          <button type='submit' className="account__button" onClick={handleUpdateFrom} disabled={errors?.name || errors?.email || testFunction()  || onLoading}>{onLoading ? 'Сохранение...' : "Редактировать"}</button>
-          <button type='submit' className="account__button" onClick={onLogout}>Выйти из аккаунта</button>
-        </section>
+        <button type='submit' className="account__button account__button_isUpdateUser" onClick={handleUpdateFrom} disabled={errors?.name || errors?.email || testFunction()  || onLoading}>{onLoading ? 'Сохранение...' : "Редактировать"}</button>
       </form>
+      <button type='submit' className="account__button account__button_isLogout" onClick={onLogout}>Выйти из аккаунта</button>
     </main>
   )
 }

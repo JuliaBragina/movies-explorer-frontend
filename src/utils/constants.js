@@ -11,4 +11,5 @@ export const MINCOUNTRERENDER = 5;
 export const MAXCOUNT = 4;
 export const MIDDLECOUNT = 3;
 export const MINCOUNT = 2;
-export const VALIDATIONEMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+export const DURATIONSHORTMOVIES = 40;
+export const VALIDATIONEMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

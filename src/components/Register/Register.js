@@ -2,21 +2,20 @@ import logo from '../../images/logo.svg';
 import PopupAuth from '../PopupAuth/PopupAuth';
 import { useForm } from "react-hook-form"; 
 import { useState } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import { VALIDATIONEMAIL } from '../../utils/constants';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from "joi";
 
-const schema = yup.object({
-  name: yup.string().min(2).max(30).required(),
-  email: yup.string().matches(VALIDATIONEMAIL).required(),
-  password: yup.string().required(),
+const schema = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
+  email: Joi.string().required().email({ tlds: { allow: false } }),
+  password: Joi.string().required(),
 }).required();
 
 function Register({ onRegisterUser, onLoading }) {
 
   const { register, formState: {errors, isValid} } = useForm({
     mode: 'all',
-    resolver: yupResolver(schema)
+    resolver: joiResolver(schema)
   });
 
   const [name, setName] = useState('');

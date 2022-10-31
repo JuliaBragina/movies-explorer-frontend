@@ -2,6 +2,7 @@
   width: 396px;
   margin: 0 auto;
   padding-top: 74px;
+  text-align: center;
 }
 
 .account__title{
@@ -80,14 +81,6 @@
   height: 12px;
 }
 
-.account__buttons{
-  padding-top: 169px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 70px;
-}
-
 .account__button{
   background: transparent;
   padding: 0;
@@ -106,10 +99,6 @@
   transition: all .4s ease;
 }
 
-.account__button:last-of-type{
-  width: 120px;
-}
-
 .account__button:hover:after{
   content: "";
   width: 100%;
@@ -121,15 +110,23 @@
   background-color: #fff;
 }
 
-.account__button:last-of-type:hover::after{
-  background-color: #EE3465;
-}
-
-.account__button:first-of-type{
+.account__button_isUpdateUser{
+  padding-top: 169px;
+  align-items: center;
   margin-bottom: 16px;
 }
 
-.account__button:last-of-type{
+.account__button_isLogout{
+  width: 120px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.account__button_isLogout:hover::after{
+  background-color: #EE3465;
+}
+
+.account__button_isLogout{
   color:#EE3465;
 }
 .account__button:disabled{
