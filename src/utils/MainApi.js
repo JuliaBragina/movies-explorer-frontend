@@ -100,7 +100,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  url: 'https://api.prk.movies.nomoredomains.sbs',
+  url: 'https://api.prkmovies.space',
   headers: {
     "Content-Type": "application/json"
   }

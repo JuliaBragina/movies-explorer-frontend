@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.prk.movies.nomoredomains.sbs';
+export const BASE_URL = 'https://api.prkmovies.space';
 
 const checkResponse = (res) => {
   if(res.ok){

@@ -23,7 +23,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "deployServer": "npm run build && scp -r ./build/* prk-movies@130.193.38.125:/home/prk-movies/movies-explorer/movies-explorer-frontend/movies-explorer-frontend/build"
+    "deployServer": "npm run build && scp -r ./build/* ssh root@45.8.249.10:/root/frontend"
   },
   "eslintConfig": {
     "extends": [
