@@ -1,14 +1,28 @@
 import './moviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import SavedMoviesCard from '../SavedMoviesCard/SavedMoviesCard';
+import MoviesNotFound from '../MoviesNotFound/MoviesNotFound';
 
-//movies.array.forEach(element => {<MoviesCard key={element.id} movies={element}});
-
-function MoviesCardList({ movies, onCardLike, isCardLiked, path, onCardDelete }) {
+function MoviesCardList({ movies, onCardLike, pathForIf, onCardDelete, savedMovies, onDisableNotFound, onLoading }) {
   return (
     <div className="moviesCardList">
       <>
         {
-          movies.map((movie) => <MoviesCard key={movie.id} onCardLike={onCardLike} movie={movie} path={path} onCardDelete={onCardDelete} />)
+          (pathForIf === 'savedMovies')
+          ?  <>
+                {
+                  (savedMovies.length !== 0)
+                    ? savedMovies.map((savedMovie) => <SavedMoviesCard key={savedMovie._id} savedMovie={savedMovie} onCardDelete={onCardDelete} />)
+                    : <MoviesNotFound />
+                }
+             </>
+          :  <>
+                {
+                  movies.length !== 0
+                    ? movies.map((movie) => <MoviesCard key={movie.id} movie={movie} savedMovies={savedMovies} onCardLike={onCardLike}/>)
+                    : (!onDisableNotFound || onLoading) && <MoviesNotFound />
+                }
+             </>
         }
       </>
     </div> 

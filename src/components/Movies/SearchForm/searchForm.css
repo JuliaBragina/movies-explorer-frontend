@@ -18,6 +18,9 @@
   border: 0;
   border-radius: 40px;
   text-indent: 22px;
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
 }
 
 .searchForm__button{
@@ -116,6 +119,19 @@
   margin: 0;
   padding-left: 12px;
 }
+
+.searchFrom__slider_isShortMovies{
+  background: #3DDC84;
+}
+
+.searchFrom__checkbox_isShortMovies + .searchFrom__slider_isShortMovies{
+  background-color: #AAA;
+}
+
+.searchFrom__checkbox_isShortMovies + .searchFrom__slider_isShortMovies{
+  transform: translateX(16px);
+}
+
 
 @media screen and (max-width: 768px) {
   .searchForm{
