@@ -10,7 +10,7 @@
 ## Макет проекта
 https://disk.yandex.ru/d/lRJe1FCZk7Glbg
 
-## Ссылка на сайт 
+## Ссылка на сайт
 https://prkmovies.space
 
 ## Планы по доработке проекта 
