@@ -9,8 +9,8 @@ function AboutMe() {
       <div className="aboutMe__aboutStudent">
         <section className="aboutMe__description">
           <p className="aboutMe__name">Юлия</p>
-          <p className="aboutMe__position">Фронтенд-разработчик, 27 лет</p>
-          <p className="aboutMe__text">Я живу в Москве, закончила СПбПУ им. Петра Великого Институт компьютерных наук и технологий по специальности Управление в технических системах. Я увлекаюсь фотографией, а ещё собирвю личную библиотеку крупных фентези циклов. После прохождения курса по веб-разработе, начала активно искать работу в этой сфере.</p>
+          <p className="aboutMe__position">Фронтенд-разработчик, 28 лет</p>
+          <p className="aboutMe__text">Я живу в Москве, закончила СПбПУ им. Петра Великого Институт компьютерных наук и технологий по специальности Управление в технических системах. Я увлекаюсь фотографией, а ещё собираю личную библиотеку крупных фентези циклов. После прохождения курса по веб-разработе, начала активно искать работу в этой сфере.</p>
           <a href="https://github.com/JuliaBragina" target="blank" className="aboutMe__git">GitHub</a>
         </section>
         <img className="aboutMe__avatar" src={avatar} alt="Аватарка"></img>
